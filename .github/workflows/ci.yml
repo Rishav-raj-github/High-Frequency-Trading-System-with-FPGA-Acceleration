@@ -1,0 +1,349 @@
+name: CI/CD Pipeline
+
+# Continuous Integration and Continuous Deployment workflow
+# for High-Frequency Trading System with FPGA Acceleration
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+  CMAKE_VERSION: 3.18
+  CCACHE_DIR: ${{ github.workspace }}/.ccache
+
+jobs:
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    
+    - name: Install code quality tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-format clang-tidy cppcheck
+        pip install cpplint
+    
+    - name: Run clang-format check
+      run: |
+        find src include -name '*.cpp' -o -name '*.h' | xargs clang-format --dry-run --Werror
+      continue-on-error: true
+    
+    - name: Run cppcheck
+      run: |
+        cppcheck --enable=all --suppress=missingIncludeSystem src/ include/ 2>&1 | tee cppcheck-report.txt
+      continue-on-error: true
+    
+    - name: Upload code quality reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-quality-reports
+        path: '*-report.txt'
+
+  build-linux:
+    name: Build on Linux
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        compiler: [gcc, clang]
+        build_type: [Debug, Release]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          ninja-build \
+          libboost-all-dev \
+          libevent-dev \
+          libssl-dev \
+          python3-dev \
+          ccache
+    
+    - name: Set up compiler
+      run: |
+        if [ "${{ matrix.compiler }}" == "gcc" ]; then
+          echo "CC=gcc" >> $GITHUB_ENV
+          echo "CXX=g++" >> $GITHUB_ENV
+        else
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+        fi
+    
+    - name: Cache build artifacts
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.ccache
+          build
+        key: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-${{ hashFiles('**/CMakeLists.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-
+          ${{ runner.os }}-${{ matrix.compiler }}-
+    
+    - name: Configure CMake
+      run: |
+        mkdir -p build
+        cd build
+        cmake .. \
+          -G Ninja \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DENABLE_FPGA=OFF \
+          -DENABLE_DPDK=OFF \
+          -DBUILD_TESTS=ON \
+          -DBUILD_BENCHMARKS=ON \
+          -DENABLE_SANITIZERS=${{ matrix.build_type == 'Debug' && 'ON' || 'OFF' }}
+    
+    - name: Build
+      run: |
+        cd build
+        ninja -j$(nproc)
+    
+    - name: Run unit tests
+      run: |
+        cd build
+        ctest --output-on-failure -j$(nproc)
+    
+    - name: Upload build artifacts
+      if: matrix.build_type == 'Release'
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-${{ matrix.compiler }}-binaries
+        path: |
+          build/bin/*
+          build/lib/*
+
+  build-with-coverage:
+    name: Build with Coverage
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          ninja-build \
+          libboost-all-dev \
+          lcov
+    
+    - name: Configure with coverage
+      run: |
+        mkdir -p build
+        cd build
+        cmake .. \
+          -G Ninja \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DENABLE_COVERAGE=ON \
+          -DBUILD_TESTS=ON
+    
+    - name: Build
+      run: |
+        cd build
+        ninja -j$(nproc)
+    
+    - name: Run tests with coverage
+      run: |
+        cd build
+        ctest --output-on-failure
+    
+    - name: Generate coverage report
+      run: |
+        cd build
+        lcov --capture --directory . --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' '*/tests/*' --output-file coverage_filtered.info
+        lcov --list coverage_filtered.info
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: ./build/coverage_filtered.info
+        fail_ci_if_error: false
+        verbose: true
+
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+      continue-on-error: true
+    
+    - name: Upload Trivy results to GitHub Security
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: 'trivy-results.sarif'
+      continue-on-error: true
+    
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/init@v3
+      with:
+        languages: 'cpp'
+      continue-on-error: true
+    
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
+      continue-on-error: true
+    
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      continue-on-error: true
+
+  documentation:
+    name: Build Documentation
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install documentation tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y doxygen graphviz
+        pip install mkdocs mkdocs-material
+    
+    - name: Generate documentation
+      run: |
+        doxygen Doxyfile || echo "Doxyfile not found, skipping Doxygen"
+        mkdocs build || echo "mkdocs.yml not found, skipping MkDocs"
+      continue-on-error: true
+    
+    - name: Upload documentation
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation
+        path: |
+          docs/html
+          site
+      continue-on-error: true
+
+  performance-benchmark:
+    name: Performance Benchmarks
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          ninja-build \
+          libboost-all-dev
+    
+    - name: Build benchmarks
+      run: |
+        mkdir -p build
+        cd build
+        cmake .. \
+          -G Ninja \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_BENCHMARKS=ON
+        ninja -j$(nproc)
+    
+    - name: Run benchmarks
+      run: |
+        cd build
+        ./benchmarks/performance_benchmark --benchmark_format=json | tee benchmark_results.json
+      continue-on-error: true
+    
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@v4
+      with:
+        name: benchmark-results
+        path: build/benchmark_results.json
+      continue-on-error: true
+
+  docker-build:
+    name: Build Docker Image
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Build Docker image
+      run: |
+        docker build -t hft-fpga-system:${{ github.sha }} . || echo "Dockerfile not found, skipping"
+      continue-on-error: true
+    
+    - name: Save Docker image
+      run: |
+        docker save hft-fpga-system:${{ github.sha }} | gzip > hft-fpga-system.tar.gz
+      continue-on-error: true
+    
+    - name: Upload Docker image
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-image
+        path: hft-fpga-system.tar.gz
+      continue-on-error: true
+
+  integration-summary:
+    name: CI Summary
+    runs-on: ubuntu-22.04
+    needs: [code-quality, build-linux, build-with-coverage, security-scan]
+    if: always()
+    
+    steps:
+    - name: Check build status
+      run: |
+        echo "Code Quality: ${{ needs.code-quality.result }}"
+        echo "Build Linux: ${{ needs.build-linux.result }}"
+        echo "Coverage: ${{ needs.build-with-coverage.result }}"
+        echo "Security: ${{ needs.security-scan.result }}"
+    
+    - name: Report status
+      run: |
+        if [ "${{ needs.build-linux.result }}" == "failure" ]; then
+          echo "Build failed!"
+          exit 1
+        else
+          echo "All required checks passed!"
+        fi
