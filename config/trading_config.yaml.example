@@ -1,0 +1,229 @@
+# High-Frequency Trading System - Configuration Template
+# Copy this file to trading_config.yaml and customize for your environment
+
+# System Configuration
+system:
+  name: "HFT-FPGA-System"
+  version: "1.0.0"
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_directory: "logs"
+  data_directory: "data"
+
+# Hardware Configuration
+hardware:
+  fpga:
+    enabled: true
+    device: "/dev/xdma0"  # FPGA device path
+    bitstream: "fpga/build/trading_engine.bit"
+    clock_frequency_mhz: 250
+    
+  network:
+    interface: "eth1"  # Primary trading network interface
+    kernel_bypass: true
+    dpdk_enabled: false
+    receive_buffer_size_mb: 256
+    transmit_buffer_size_mb: 256
+    
+  cpu:
+    affinity: [0, 1, 2, 3]  # CPU cores for trading threads
+    numa_node: 0
+    huge_pages_enabled: true
+    huge_page_size_mb: 2
+
+# Market Data Configuration
+market_data:
+  feeds:
+    - name: "NYSE_TAPE_A"
+      protocol: "UDP"
+      multicast_groups:
+        - "233.54.12.1:9001"
+        - "233.54.12.2:9002"
+      symbols: ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA"]
+      enabled: true
+      
+    - name: "NASDAQ_TOTALVIEW"
+      protocol: "UDP"
+      multicast_groups:
+        - "233.43.200.0:14100"
+        - "233.43.200.1:14101"
+      symbols: ["AAPL", "MSFT", "GOOGL", "NVDA", "META"]
+      enabled: true
+      
+    - name: "CME_GLOBEX"
+      protocol: "UDP"
+      multicast_groups:
+        - "224.0.31.0:14310"
+      symbols: ["ES", "NQ", "GC", "CL"]
+      enabled: false
+  
+  processing:
+    buffer_size: 100000
+    latency_tracking: true
+    book_depth: 10  # Order book depth levels
+    snapshot_interval_ms: 1000
+
+# Trading Configuration
+trading:
+  mode: "simulation"  # simulation, paper, live
+  
+  strategies:
+    - name: "market_making"
+      enabled: true
+      symbols: ["AAPL", "MSFT"]
+      parameters:
+        spread_bps: 5
+        order_size: 100
+        max_position: 10000
+        inventory_target: 0
+        
+    - name: "statistical_arbitrage"
+      enabled: false
+      symbols: ["GOOGL", "MSFT"]
+      parameters:
+        lookback_period: 60
+        entry_threshold: 2.0
+        exit_threshold: 0.5
+  
+  execution:
+    order_type: "LIMIT"  # LIMIT, MARKET, IOC, FOK
+    time_in_force: "DAY"  # DAY, GTC, IOC, FOK
+    slippage_tolerance_bps: 10
+    max_order_rate_per_second: 1000
+    
+  routing:
+    default_venue: "SMART"
+    latency_optimization: true
+    fill_probability_weight: 0.6
+    latency_weight: 0.4
+
+# Risk Management
+risk:
+  pre_trade_checks:
+    enabled: true
+    hardware_enforced: true  # FPGA-based risk checks
+    
+  position_limits:
+    max_single_position: 50000  # shares
+    max_sector_exposure: 500000
+    max_portfolio_value: 10000000
+    
+  order_limits:
+    max_order_size: 10000  # shares
+    max_order_value: 1000000  # USD
+    min_order_size: 1
+    
+  loss_limits:
+    daily_loss_limit: 100000  # USD
+    max_drawdown_percent: 5.0
+    stop_trading_on_limit: true
+    
+  exposure_limits:
+    max_gross_exposure: 20000000
+    max_net_exposure: 5000000
+    max_leverage: 2.0
+    
+  circuit_breakers:
+    enabled: true
+    rapid_execution_threshold: 100  # orders in 10 seconds
+    error_rate_threshold: 0.05  # 5% error rate
+    cooldown_period_seconds: 300
+
+# Exchange Connections
+exchanges:
+  - name: "NYSE_DIRECT"
+    protocol: "FIX4.4"
+    enabled: false
+    host: "fix.nyse.com"
+    port: 9001
+    sender_comp_id: "YOUR_SENDER_ID"
+    target_comp_id: "NYSE"
+    credentials:
+      username: "YOUR_USERNAME"
+      password_env: "NYSE_PASSWORD"  # Use environment variable
+    heartbeat_interval: 30
+    
+  - name: "NASDAQ_OUCH"
+    protocol: "OUCH4.2"
+    enabled: false
+    host: "ouch.nasdaq.com"
+    port: 9000
+    credentials:
+      username: "YOUR_USERNAME"
+      password_env: "NASDAQ_PASSWORD"
+    
+  - name: "CME_ILINK"
+    protocol: "iLink3"
+    enabled: false
+    host: "ilink.cme.com"
+    port: 9100
+    credentials:
+      access_key_id: "YOUR_KEY_ID"
+      secret_key_env: "CME_SECRET_KEY"
+
+# Performance Monitoring
+monitoring:
+  metrics:
+    enabled: true
+    update_interval_ms: 100
+    export_prometheus: false
+    
+  latency:
+    track_tick_to_trade: true
+    track_order_ack: true
+    percentiles: [50, 95, 99, 99.9]
+    
+  alerts:
+    enabled: true
+    email_notifications: false
+    slack_webhook_env: "SLACK_WEBHOOK_URL"
+    
+  performance:
+    track_pnl: true
+    track_fill_rate: true
+    track_sharpe_ratio: true
+    window_size_seconds: 3600
+
+# Backtesting (when mode is simulation)
+backtest:
+  start_date: "2024-01-01"
+  end_date: "2024-12-31"
+  initial_capital: 1000000
+  commission_per_share: 0.001
+  slippage_model: "linear"  # linear, square_root, fixed
+  data_source: "historical"  # historical, replay
+
+# Security
+security:
+  encryption:
+    enabled: true
+    algorithm: "AES-256-GCM"
+    key_management: "vault"  # vault, file, env
+    
+  authentication:
+    require_2fa: true
+    session_timeout_minutes: 60
+    max_failed_attempts: 3
+    
+  audit:
+    log_all_orders: true
+    log_all_fills: true
+    log_risk_events: true
+    retention_days: 90
+
+# Advanced Features
+advanced:
+  machine_learning:
+    enabled: false
+    model_path: "models/"
+    inference_mode: "fpga"  # fpga, cpu, gpu
+    update_frequency_hours: 24
+    
+  order_book_reconstruction:
+    enabled: true
+    validation: true
+    depth: 10
+    
+  market_impact_modeling:
+    enabled: false
+    model: "almgren_chriss"
+    recalibration_frequency_hours: 6
