@@ -1,0 +1,152 @@
+# High-Frequency Trading System with FPGA Acceleration
+# .gitignore
+
+# Build artifacts
+build/
+dist/
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.app
+*.a
+*.lib
+
+# FPGA build outputs
+fpga/build/
+fpga/simulation/
+fpga/implementation/
+*.bit
+*.bin
+*.mcs
+*.ltx
+*.jed
+*.sof
+*.pof
+*.rbf
+*.bit.bin
+
+# Vivado/Xilinx files
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.xpr
+*.jou
+*.log
+*.pb
+*.wdb
+*.wcfg
+.Xil/
+fsm_encoding.os
+usage_statistics_webtalk.*
+webtalk.*
+NA/
+
+# Intel Quartus files
+db/
+incremental_db/
+output_files/
+simulation/
+*.qsf
+*.qpf
+*.sdc
+*.bak
+*.done
+*.rpt
+*.smsg
+*.summary
+*.qarlog
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-*
+
+# Trading configurations (sensitive)
+config/trading_config.yaml
+config/market_data.yaml
+config/credentials.yaml
+config/*.key
+config/*.pem
+config/*.cert
+*.credentials
+
+# Market data and logs
+logs/
+*.log
+data/market_data/
+data/backtest/
+data/live/
+*.csv
+*.parquet
+*.hdf5
+
+# Performance profiling
+perf.data
+perf.data.old
+gmon.out
+callgrind.out.*
+*.prof
+*.gcda
+*.gcno
+*.gcov
+
+# Documentation
+docs/_build/
+docs/.doctrees/
+*.pdf
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Core dumps
+core
+core.*
+vgcore.*
+
+# Secrets and sensitive data
+*.pem
+*.key
+*.secret
+.env
+.env.local
