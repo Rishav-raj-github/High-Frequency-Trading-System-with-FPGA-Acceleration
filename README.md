@@ -1,10 +1,6 @@
 # 🚀 High-Frequency Execution System with FPGA Acceleration
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![FPGA](https://img.shields.io/badge/FPGA-Xilinx%2FIntel-blue)](https://www.xilinx.com)
-[![Latency](https://img.shields.io/badge/Latency-<1μs-red)](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration)
-[![Language](https://img.shields.io/badge/Languages-Verilog%2FVHDL%2FC%2B%2B-orange)](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![FPGA](https://img.shields.io/badge/FPGA-Xilinx%2FIntel-blue)](https://www.xilinx.com) [![Latency](https://img.shields.io/badge/Latency-<1μs-red)](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration) [![Language](https://img.shields.io/badge/Languages-Verilog%2FVHDL%2FC%2B%2B-orange)](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration)
 
 ## 📊 Executive Summary
 
@@ -19,11 +15,11 @@ Ultra-low latency execution system that achieves **nanosecond-level execution ti
 - **🛡️ Hardware Risk Management**: Real-time pre-trade risk checks implemented directly in FPGA
 - **🧠 ML-Enhanced Price Prediction**: Short-term forecasting using XGBoost/Random Forest algorithms
 - **🔀 Smart Order Routing**: Intelligent multi-exchange routing with dynamic latency optimization
-- **📈 Real-Time Analytics**: Live performance monitoring and trade execution metrics
+- **📈 Real-Time Analytics**: Live performance monitoring and execution metrics
 
 ### Performance Metrics
 
-- **Tick-to-Trade Latency**: <500 nanoseconds
+- **Tick-to-Execution Latency**: <500 nanoseconds
 - **Market Data Processing**: <1 microsecond
 - **Order Processing Throughput**: 10M+ orders/second
 - **Risk Check Latency**: <100 nanoseconds
@@ -32,22 +28,22 @@ Ultra-low latency execution system that achieves **nanosecond-level execution ti
 
 ```
 ┌─────────────────────┐ ┌─────────────────────┐ ┌─────────────────────┐
-│ Market Data │ │ FPGA NIC │ │ Execution Engine │
-│ Feeds (UDP) │───▶│ (Hardware) │───▶│ (Verilog/VHDL) │
-│ │ │ │ │ │
-│ • NYSE, NASDAQ │ │ • Kernel Bypass │ │ • Order Logic │
-│ • CME, ICE │ │ • DPDK Integration │ │ • Risk Checks │
-│ • FIX Protocol │ │ • Multicast RX │ │ • ML Inference │
+│ Market Data         │ │ FPGA NIC            │ │ Execution Engine    │
+│ Feeds (UDP)         │───▶│ (Hardware)          │───▶│ (Verilog/VHDL)      │
+│                     │ │                     │ │                     │
+│ • NYSE, NASDAQ      │ │ • Kernel Bypass     │ │ • Order Logic       │
+│ • CME, ICE          │ │ • DPDK Integration  │ │ • Risk Checks       │
+│ • FIX Protocol      │ │ • Multicast RX      │ │ • ML Inference      │
 └─────────────────────┘ └─────────────────────┘ └─────────────────────┘
           │                     │                     │
           ▼                     ▼                     ▼
 ┌─────────────────────┐ ┌─────────────────────┐ ┌─────────────────────┐
-│ Data Processing │ │ Memory Subsystem │ │ Order Gateway │
-│ Pipeline (C++) │ │ (DDR4/HBM) │ │ (Multi-Exchange) │
-│ │ │ │ │ │
-│ • Normalization │ │ • Order Book Cache │ │ • NYSE Direct │
-│ • Feature Extraction│ │ • Position Tracking │ │ • NASDAQ OUCH │
-│ • ML Preprocessing │ │ • Risk Parameters │ │ • CME iLink │
+│ Data Processing     │ │ Memory Subsystem    │ │ Order Gateway       │
+│ Pipeline (C++)      │ │ (DDR4/HBM)          │ │ (Multi-Exchange)    │
+│                     │ │                     │ │                     │
+│ • Normalization     │ │ • Order Book Cache  │ │ • NYSE Direct       │
+│ • Feature Extraction│ │ • Position Tracking │ │ • NASDAQ OUCH       │
+│ • ML Preprocessing  │ │ • Risk Parameters   │ │ • CME iLink         │
 └─────────────────────┘ └─────────────────────┘ └─────────────────────┘
 ```
 
@@ -117,7 +113,7 @@ cp ../config/market_data_template.yaml ../config/market_data.yaml
 ./run_tests.sh
 
 # 8. Start Execution Engine
-sudo ./hft_engine --config ../config/trading_config.yaml
+sudo ./hft_engine --config ../config/execution_config.yaml
 ```
 
 ## 📋 Usage Instructions
@@ -129,19 +125,19 @@ sudo ./hft_engine --config ../config/trading_config.yaml
 ./market_data_handler --exchange NYSE --symbol AAPL,MSFT,GOOGL
 
 # Initialize FPGA execution engine
-./fpga_engine_loader --bitstream ../fpga/build/trading_engine.bit
+./fpga_engine_loader --bitstream ../fpga/build/execution_engine.bit
 
 # Run backtesting
 ./backtest_engine --strategy momentum --start-date 2024-01-01 --end-date 2024-12-31
 
 # Live execution (requires proper credentials and risk approval)
-./live_trading --dry-run false --max-position 1000000
+./live_execution --dry-run false --max-position 1000000
 ```
 
 ### Configuration Examples
 
 ```yaml
-# trading_config.yaml
+# execution_config.yaml
 market_data:
   feeds: ["NYSE_TAPE_A", "NASDAQ_TOTALVIEW", "CME_GLOBEX"]
   multicast_groups: ["233.54.12.1:9001", "233.54.12.2:9002"]
@@ -162,18 +158,22 @@ hardware:
 ## 🔬 Design Challenges & Solutions
 
 ### 1. Ultra-Low Latency Processing
-**Challenge**: Achieving sub-microsecond tick-to-trade latency  
+
+**Challenge**: Achieving sub-microsecond tick-to-execution latency  
 **Solution**: Custom FPGA pipeline with parallel processing stages and zero-copy memory architecture
 
 ### 2. Hardware-Software Codesign
+
 **Challenge**: Optimal partitioning between FPGA and CPU processing  
 **Solution**: Critical path analysis and hardware acceleration of bottleneck operations
 
 ### 3. Real-Time Risk Management
+
 **Challenge**: Ensuring risk checks don't impact latency  
 **Solution**: Hardware-implemented risk logic with parallel execution paths
 
 ### 4. Market Data Normalization
+
 **Challenge**: Handling multiple exchange formats at line rate  
 **Solution**: FPGA-based protocol processing with configurable parsers
 
@@ -186,7 +186,7 @@ hardware:
 | Market Data Processing | 650 | 2.5 | 3.8x faster |
 | Risk Checks | 95 | 0.5 | 5.3x faster |
 | Order Generation | 180 | 1.2 | 6.7x faster |
-| **Total Tick-to-Trade** | **480** | **8.5** | **17.7x faster** |
+| **Total Tick-to-Execution** | **480** | **8.5** | **17.7x faster** |
 
 ### Throughput Metrics
 
@@ -198,42 +198,52 @@ hardware:
 ## 🎯 10 Advanced Project Extensions
 
 ### 1. **Multi-Asset Arbitrage Engine** 📊
+
 **Complexity**: High  
 Implement cross-asset and cross-exchange arbitrage detection using statistical correlation analysis and real-time spread monitoring.
 
 ### 2. **Options Market Making System** 📈
+
 **Complexity**: High  
 Build automated options market maker with Greeks calculation, volatility surface modeling, and dynamic hedging strategies.
 
 ### 3. **Cryptocurrency Flash Loan Arbitrage** ₿
+
 **Complexity**: Medium-High  
 Develop DeFi arbitrage system utilizing flash loans across multiple DEXs with MEV optimization and gas price prediction.
 
 ### 4. **ML-Based Alpha Factor Discovery** 🧠
+
 **Complexity**: High  
 Create automated alpha research platform using genetic programming, feature engineering, and walk-forward optimization.
 
 ### 5. **Real-Time Portfolio Risk Analytics** 🛡️
+
 **Complexity**: Medium-High  
 Build comprehensive risk management system with VaR calculation, stress testing, and regulatory capital requirements.
 
 ### 6. **Smart Order Routing Optimizer** 🔀
+
 **Complexity**: Medium  
 Develop intelligent order routing using reinforcement learning to minimize market impact and maximize fill rates.
 
 ### 7. **Cross-Border FX Arbitrage System** 💱
+
 **Complexity**: Medium-High  
 Implement triangular and statistical arbitrage strategies across global FX markets with currency carry optimization.
 
 ### 8. **Alternative Data Integration Platform** 📡
+
 **Complexity**: Medium  
 Build system to ingest and process satellite imagery, social sentiment, and economic indicators for execution signal generation.
 
 ### 9. **Quantum-Resistant Execution Infrastructure** 🔐
+
 **Complexity**: High  
 Develop post-quantum cryptographic execution system with lattice-based signatures and homomorphic encryption.
 
 ### 10. **Blockchain-Based Settlement Network** ⛓️
+
 **Complexity**: High  
 Create distributed ledger system for trade settlement with smart contracts, atomic swaps, and cross-chain interoperability.
 
@@ -280,7 +290,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## ⚠️ Disclaimer
 
-This software is for educational and research purposes. Live trading involves significant financial risk. Please ensure proper risk management, regulatory compliance, and testing before any production deployment.
+This software is for educational and research purposes. Live execution involves significant financial risk. Please ensure proper risk management, regulatory compliance, and testing before any production deployment.
 
 ## 🔄 Changelog
 
