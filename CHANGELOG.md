@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the High-Frequency Trading System with FPGA Acceleration will be documented in this file.
+All notable changes to the High-Frequency Execution System with FPGA Acceleration will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -38,7 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-#### Core Trading Engine
+#### Core Execution Engine
 - **FPGA-Accelerated Order Processing**: Ultra-low latency order execution in hardware
 - **Market Data Pipeline**: Sub-microsecond market data processing with DPDK support
 - **Risk Management System**: Hardware-enforced pre-trade risk checks in FPGA
@@ -52,10 +52,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Memory Optimization**: Huge pages and NUMA-aware memory allocation
 
 #### Software Features
-- **Trading Strategies**:
+- **Execution Strategies**:
   - Market making with inventory management
   - Statistical arbitrage
-  - Momentum trading
+  - Momentum execution
 - **Machine Learning**: XGBoost-based price prediction models
 - **Smart Order Routing**: Intelligent venue selection with latency optimization
 - **Performance Monitoring**: Real-time metrics and alerting
@@ -74,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **SECURITY.md**: Security policy and vulnerability reporting
 
 #### Configuration
-- **Trading Config**: Comprehensive YAML-based configuration system
+- **Execution Config**: Comprehensive YAML-based configuration system
 - **Market Data Config**: Multi-feed configuration with multicast support
 - **Risk Parameters**: Configurable position and loss limits
 - **Hardware Settings**: FPGA device and network interface configuration
@@ -194,8 +194,8 @@ We follow [Semantic Versioning](https://semver.org/):
 
 ### Getting Help
 
-- **Issues**: [GitHub Issues](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration/discussions)
 - **Security**: See [SECURITY.md](SECURITY.md) for security issues
 
 ---
@@ -215,7 +215,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
 ### Contributors
 - Initial development and architecture
 - FPGA hardware design
-- Trading algorithm implementation
+- Execution algorithm implementation
 - Documentation and testing
 
 ### Third-Party Libraries

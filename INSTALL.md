@@ -1,6 +1,6 @@
 # Installation Guide
 
-## High-Frequency Trading System with FPGA Acceleration
+## High-Frequency Execution System with FPGA Acceleration
 
 This guide provides comprehensive instructions for installing and configuring the HFT FPGA system.
 
@@ -240,7 +240,7 @@ sudo reboot
 ### 1. Network Interface Setup
 
 ```bash
-# Identify your trading network interface
+# Identify your execution network interface
 ip link show
 
 # Configure static IP (replace eth1 with your interface)
@@ -298,8 +298,8 @@ nano config/trading_config.yaml
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration.git
-cd High-Frequency-Trading-System-with-FPGA-Acceleration
+git clone https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration.git
+cd High-Frequency-Execution-System-with-FPGA-Acceleration
 ```
 
 ### 2. Build FPGA Bitstream (Optional - Pre-built available)
@@ -477,22 +477,22 @@ sudo usermod -a -G xrt,video,render $USER
 
 After successful installation:
 
-1. **Configure trading parameters**: Edit `config/trading_config.yaml`
+1. **Configure execution parameters**: Edit `config/trading_config.yaml`
 2. **Review security settings**: See [SECURITY.md](SECURITY.md)
 3. **Read usage guide**: See [README.md](README.md)
 4. **Run backtests**: Test strategies with historical data
-5. **Paper trading**: Validate system with paper trading
+5. **Paper execution**: Validate system with paper execution
 
 ---
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration/discussions)
-- **Documentation**: [Project Wiki](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration/wiki)
+- **Issues**: [GitHub Issues](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration/discussions)
+- **Documentation**: [Project Wiki](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration/wiki)
 
 ---
 
 **Installation Complete!** 🎉
 
-You're now ready to configure and run the High-Frequency Trading System with FPGA Acceleration.
+You're now ready to configure and run the High-Frequency Execution System with FPGA Acceleration.

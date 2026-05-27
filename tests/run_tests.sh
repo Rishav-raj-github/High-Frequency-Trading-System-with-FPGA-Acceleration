@@ -1,5 +1,5 @@
 #!/bin/bash
-# High-Frequency Trading System with FPGA Acceleration
+# High-Frequency Execution System with FPGA Acceleration
 # Comprehensive Test Suite Runner
 # Usage: ./run_tests.sh [options]
 

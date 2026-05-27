@@ -1,4 +1,4 @@
-# High-Frequency Trading System - Configuration Template
+# High-Frequency Execution System - Configuration Template
 # Copy this file to trading_config.yaml and customize for your environment
 
 # System Configuration
@@ -18,14 +18,14 @@ hardware:
     clock_frequency_mhz: 250
     
   network:
-    interface: "eth1"  # Primary trading network interface
+    interface: "eth1"  # Primary execution network interface
     kernel_bypass: true
     dpdk_enabled: false
     receive_buffer_size_mb: 256
     transmit_buffer_size_mb: 256
     
   cpu:
-    affinity: [0, 1, 2, 3]  # CPU cores for trading threads
+    affinity: [0, 1, 2, 3]  # CPU cores for execution threads
     numa_node: 0
     huge_pages_enabled: true
     huge_page_size_mb: 2
@@ -62,8 +62,8 @@ market_data:
     book_depth: 10  # Order book depth levels
     snapshot_interval_ms: 1000
 
-# Trading Configuration
-trading:
+# Execution Configuration
+execution:
   mode: "simulation"  # simulation, paper, live
   
   strategies:

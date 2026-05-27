@@ -1,12 +1,12 @@
-# High-Frequency Trading System with FPGA Acceleration
+# High-Frequency Execution System with FPGA Acceleration
 # Root CMakeLists.txt
 
 cmake_minimum_required(VERSION 3.18)
 project(HFT_FPGA_System VERSION 1.0.0 LANGUAGES CXX C)
 
 # Project metadata
-set(PROJECT_DESCRIPTION "Ultra-low latency trading system with FPGA acceleration")
-set(PROJECT_HOMEPAGE_URL "https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration")
+set(PROJECT_DESCRIPTION "Ultra-low latency execution system with FPGA acceleration")
+set(PROJECT_HOMEPAGE_URL "https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration")
 
 # C++ Standard
 set(CMAKE_CXX_STANDARD 17)

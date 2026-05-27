@@ -1,4 +1,4 @@
-# High-Frequency Trading System with FPGA Acceleration
+# High-Frequency Execution System with FPGA Acceleration
 # .gitignore
 
 # Build artifacts
@@ -99,7 +99,7 @@ htmlcov/
 .DS_Store
 *.sublime-*
 
-# Trading configurations (sensitive)
+# Execution configurations (sensitive)
 config/trading_config.yaml
 config/market_data.yaml
 config/credentials.yaml

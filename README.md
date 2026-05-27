@@ -1,6 +1,6 @@
 # 🚀 High-Frequency Execution System with FPGA Acceleration
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![FPGA](https://img.shields.io/badge/FPGA-Xilinx%2FIntel-blue)](https://www.xilinx.com) [![Latency](https://img.shields.io/badge/Latency-<1μs-red)](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration) [![Language](https://img.shields.io/badge/Languages-Verilog%2FVHDL%2FC%2B%2B-orange)](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![FPGA](https://img.shields.io/badge/FPGA-Xilinx%2FIntel-blue)](https://www.xilinx.com) [![Latency](https://img.shields.io/badge/Latency-<1μs-red)](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration) [![Language](https://img.shields.io/badge/Languages-Verilog%2FVHDL%2FC%2B%2B-orange)](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration)
 
 ## 📊 Executive Summary
 
@@ -85,8 +85,8 @@ sudo apt-get install build-essential cmake git python3-dev
 
 ```bash
 # 1. Clone Repository
-git clone https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration.git
-cd High-Frequency-Trading-System-with-FPGA-Acceleration
+git clone https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration.git
+cd High-Frequency-Execution-System-with-FPGA-Acceleration
 
 # 2. Install Dependencies
 ./scripts/install_dependencies.sh
@@ -284,9 +284,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙋‍♂️ Support & Contact
 
-- **Issues**: [GitHub Issues](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration/discussions)
-- **Wiki**: [Project Wiki](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration/wiki)
+- **Issues**: [GitHub Issues](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration/discussions)
+- **Wiki**: [Project Wiki](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration/wiki)
 
 ## ⚠️ Disclaimer
 

@@ -1,7 +1,7 @@
 name: CI/CD Pipeline
 
 # Continuous Integration and Continuous Deployment workflow
-# for High-Frequency Trading System with FPGA Acceleration
+# for High-Frequency Execution System with FPGA Acceleration
 
 on:
   push:

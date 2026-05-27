@@ -1,6 +1,6 @@
-# Contributing to High-Frequency Trading System with FPGA Acceleration
+# Contributing to High-Frequency Execution System with FPGA Acceleration
 
-Thank you for your interest in contributing to this ultra-low latency trading system! We welcome contributions that help advance the state-of-the-art in hardware-accelerated financial systems.
+Thank you for your interest in contributing to this ultra-low latency execution system! We welcome contributions that help advance the state-of-the-art in hardware-accelerated financial systems.
 
 ## 🚀 Quick Start
 
@@ -41,8 +41,8 @@ sudo apt-get install gtest-dev
 ### Environment Configuration
 ```bash
 # Clone and setup
-git clone https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration.git
-cd High-Frequency-Trading-System-with-FPGA-Acceleration
+git clone https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration.git
+cd High-Frequency-Execution-System-with-FPGA-Acceleration
 
 # Setup development environment
 ./scripts/setup_dev_env.sh
@@ -113,7 +113,7 @@ module order_processor #(
 #include <memory>
 #include <vector>
 
-namespace hft::trading {
+namespace hft::execution {
 
 /**
  * @brief High-performance order book implementation
@@ -134,7 +134,7 @@ private:
     std::array<PriceLevel, kMaxPriceLevels> ask_levels_;
 };
 
-}  // namespace hft::trading
+}  // namespace hft::execution
 ```
 
 #### Python Standards
@@ -282,7 +282,7 @@ Closes #123
 ### Research Areas
 - **Quantum-resistant security**: Post-quantum cryptography
 - **Novel FPGA architectures**: Next-generation hardware
-- **Advanced ML techniques**: Deep learning for trading
+- **Advanced ML techniques**: Deep learning for execution
 - **Blockchain integration**: DeFi and cross-chain protocols
 - **Alternative data sources**: Satellite, social media, IoT
 
@@ -311,7 +311,7 @@ Closes #123
 ### Mentorship Program
 New contributors can request mentorship for:
 - FPGA development guidance
-- High-frequency trading concepts
+- High-frequency execution concepts
 - Performance optimization techniques
 - Code review and best practices
 
@@ -340,4 +340,4 @@ This project follows our [Code of Conduct](CODE_OF_CONDUCT.md). Please read and 
 
 **Happy Contributing! 🚀**
 
-*Building the future of high-frequency trading, one commit at a time.*
+*Building the future of high-frequency execution, one commit at a time.*

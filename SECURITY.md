@@ -2,7 +2,7 @@
 
 ## Overview
 
-The High-Frequency Trading System with FPGA Acceleration handles sensitive financial data and requires the highest security standards. This document outlines our security practices, vulnerability reporting procedures, and supported versions.
+The High-Frequency Execution System with FPGA Acceleration handles sensitive financial data and requires the highest security standards. This document outlines our security practices, vulnerability reporting procedures, and supported versions.
 
 ## Supported Versions
 
@@ -18,7 +18,7 @@ We actively maintain security updates for the following versions:
 ### 1. Network Security
 - **Kernel Bypass Protection**: Isolated network stacks prevent unauthorized access
 - **Encrypted Connections**: TLS 1.3 for all external communications
-- **Firewall Configuration**: Hardware-level filtering for trading connections
+- **Firewall Configuration**: Hardware-level filtering for execution connections
 - **DDoS Protection**: Rate limiting and connection validation
 
 ### 2. Data Protection
@@ -36,13 +36,13 @@ We actively maintain security updates for the following versions:
 ### 4. Application Security
 - **Input Validation**: All market data and orders validated
 - **Memory Safety**: Modern C++ practices with bounds checking
-- **Risk Limits**: Hardware-enforced trading limits
+- **Risk Limits**: Hardware-enforced execution limits
 - **Error Handling**: Fail-safe mechanisms for all critical paths
 
 ## Security Best Practices
 
 ### Deployment
-1. **Network Isolation**: Deploy on dedicated trading networks
+1. **Network Isolation**: Deploy on dedicated execution networks
 2. **Minimal Attack Surface**: Disable unnecessary services
 3. **Regular Updates**: Apply security patches promptly
 4. **Access Control**: Implement principle of least privilege
@@ -90,7 +90,7 @@ Instead, please report them responsibly:
 
 **Critical** (CVSS 9.0-10.0)
 - Remote code execution
-- Trading logic bypass
+- Execution logic bypass
 - Risk control bypass
 - Credential exposure
 
@@ -121,13 +121,13 @@ Instead, please report them responsibly:
 
 - **Security Issues**: security@[repository-owner-domain]
 - **PGP Key**: Available on request
-- **Security Advisories**: [GitHub Security Advisories](https://github.com/Rishav-raj-github/High-Frequency-Trading-System-with-FPGA-Acceleration/security/advisories)
+- **Security Advisories**: [GitHub Security Advisories](https://github.com/Rishav-raj-github/High-Frequency-Execution-System-with-FPGA-Acceleration/security/advisories)
 
 ## Compliance
 
 ### Regulatory Standards
 - **SEC Rule 15c3-5**: Market access rule compliance
-- **MiFID II**: European trading regulations
+- **MiFID II**: European execution regulations
 - **FIX Protocol**: Secure FIX message handling
 
 ### Security Standards
@@ -178,7 +178,7 @@ We recognize and appreciate security researchers who help improve our security:
 
 ## License
 
-This security policy is part of the High-Frequency Trading System with FPGA Acceleration project and is covered under the same MIT License.
+This security policy is part of the High-Frequency Execution System with FPGA Acceleration project and is covered under the same MIT License.
 
 ---
 
